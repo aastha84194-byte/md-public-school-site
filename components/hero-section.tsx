@@ -12,7 +12,7 @@ export function HeroSection() {
   return (
     <div className="relative overflow-hidden bg-sky-50 py-24 lg:py-32 font-mukta min-h-[85vh] flex items-center">
       <div className="absolute inset-0 bg-[url('/schoolimg.jpeg')] bg-cover bg-center" />
-      <div className="absolute inset-0 bg-black/30" />
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-transparent" />
       
       <div className="container relative mx-auto px-4 lg:px-8 z-10">
         <div className="mx-auto max-w-4xl text-center">

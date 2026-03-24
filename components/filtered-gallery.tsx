@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ImageIcon, Users, Calendar, GraduationCap } from "lucide-react";
 
 const galleryData = [
   {
@@ -44,6 +45,13 @@ const galleryData = [
 
 type FilterType = "all" | "teacher" | "student" | "event";
 
+const filterTabs = [
+  { id: "all", label: "All Photos", icon: ImageIcon },
+  { id: "teacher", label: "Our Teachers", icon: GraduationCap },
+  { id: "student", label: "Student Life", icon: Users },
+  { id: "event", label: "Events", icon: Calendar },
+] as const;
+
 export function FilteredGallery() {
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
 
@@ -52,78 +60,87 @@ export function FilteredGallery() {
   );
 
   return (
-    <section className="py-20 md:py-28 bg-white selection:bg-sky-100 overflow-hidden">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4 tracking-tight">
+    <section className="bg-sky-50/30 min-h-screen pb-24">
+      {/* Banner that sits right below header */}
+      <div className="bg-sky-900 border-t border-sky-800 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/schoolimg.jpeg')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-900/60 to-sky-950/90"></div>
+        <div className="container mx-auto px-4 py-16 md:py-24 relative z-10 text-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg font-mukta"
+          >
             Campus Gallery
-          </h2>
-          <div className="w-24 h-1.5 bg-sky-200 mx-auto rounded-full mb-10"></div>
-          
-          {/* Filter Tabs */}
-          <div className="inline-flex flex-wrap justify-center gap-2 sm:gap-4 p-1.5 bg-sky-50/50 rounded-2xl border border-sky-100 shadow-sm">
-            {(["all", "teacher", "student", "event"] as const).map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-5 sm:px-8 py-2.5 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 ${
-                  activeFilter === filter
-                    ? "bg-sky-100 text-sky-800 border border-sky-300 shadow-sm"
-                    : "text-slate-600 hover:text-sky-700 hover:bg-sky-50 border border-transparent"
-                }`}
-              >
-                {filter === "all" && "All"}
-                {filter === "teacher" && "Our Teachers"}
-                {filter === "student" && "Student Life"}
-                {filter === "event" && "Events"}
-              </button>
-            ))}
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg md:text-xl text-sky-100 max-w-2xl mx-auto font-medium"
+          >
+            A visual journey through our dynamic campus, celebrating academics, activities, and cherished memories.
+          </motion.p>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 max-w-7xl -mt-8 relative z-20 mb-16">
+        <div className="flex justify-center">
+          <div className="bg-white p-2 rounded-2xl shadow-xl border border-sky-100/50 inline-flex flex-wrap justify-center gap-2">
+            {filterTabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveFilter(tab.id as FilterType)}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 ${
+                    activeFilter === tab.id
+                      ? "bg-sky-500 text-white shadow-md transform scale-105"
+                      : "text-slate-600 hover:text-sky-600 hover:bg-sky-50"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
         </div>
+      </div>
 
-        {/* Masonry Grid with Framer Motion Layout animations */}
-        <motion.div layout className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+      <div className="container mx-auto px-4 max-w-7xl">
+        {/* Masonry Grid */}
+        <motion.div layout className="columns-1 sm:columns-2 lg:columns-3 xl:columns-3 gap-6 space-y-6">
           <AnimatePresence mode="popLayout">
             {filteredData.map((item) => (
               <motion.div
                 key={item.id}
                 layout
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                initial={{ opacity: 0, scale: 0.8, y: 30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                transition={{ duration: 0.4, type: "spring", bounce: 0.3 }}
+                exit={{ opacity: 0, scale: 0.8, y: -30 }}
+                transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
                 className="relative break-inside-avoid group cursor-pointer"
               >
-                <div className="overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-500 border border-sky-50 bg-white relative">
+                <div className="overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 bg-white relative">
                   <img
                     src={item.url}
                     alt={item.label}
-                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
                   />
                   
-                  {/* Teacher Profile Overlay Overlay */}
-                  {item.category === "teacher" && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 via-slate-800/50 to-transparent p-6 pt-16">
-                      <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <p className="text-white font-semibold tracking-wide text-lg drop-shadow-md">
-                          {item.label}
-                        </p>
-                        <div className="w-12 h-1 bg-sky-400 mt-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      </div>
+                  {/* Elegant Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      <span className="inline-block px-3 py-1 bg-sky-500/90 backdrop-blur-sm border border-sky-400/50 text-white text-xs font-bold rounded-full mb-3 uppercase tracking-wider shadow-sm">
+                        {item.category}
+                      </span>
+                      <p className="text-white font-bold tracking-wide text-xl drop-shadow-md font-mukta leading-tight">
+                        {item.label}
+                      </p>
                     </div>
-                  )}
-
-                  {/* Candid / Event Overlay */}
-                  {(item.category === "student" || item.category === "event") && (
-                    <div className="absolute inset-0 bg-sky-900/0 group-hover:bg-sky-900/30 transition-colors duration-500 flex items-center justify-center p-6">
-                      <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-95 group-hover:scale-100">
-                        <span className="bg-white/95 text-sky-900 font-bold px-5 py-2.5 rounded-full text-sm shadow-lg backdrop-blur-sm border border-sky-100 inline-block">
-                          {item.label}
-                        </span>
-                      </div>
-                    </div>
-                  )}
+                  </div>
                 </div>
               </motion.div>
             ))}

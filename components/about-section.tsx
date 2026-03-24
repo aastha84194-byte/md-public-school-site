@@ -84,11 +84,11 @@ export function AboutSection() {
               {t("Welcome to the Campus", "परिसर में आपका स्वागत है")}
             </div>
             
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 leading-[1.15] mb-6 font-khand drop-shadow-sm dark:text-white">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 leading-[1.2] mb-6 font-khand drop-shadow-sm dark:text-white">
               {t("Nurturing Future Leaders in Sirsaganj", "सिरसागंज में भविष्य के नेतृत्वकर्ताओं का निर्माण")}
             </h2>
             
-            <p className="text-lg text-slate-600 font-medium leading-relaxed mb-10 dark:text-zinc-400">
+            <p className="text-lg text-slate-600 font-normal leading-loose mb-10 dark:text-zinc-400">
               {t(
                 "M.D. Public Inter College is a premier UP Board institution dedicated to providing a balanced mix of traditional values and modern technical education. Under the guidance of Er. Shailendra Pratap Singh, we focus on empowering students with practical knowledge.",
                 "एम. डी. पब्लिक इण्टर कॉलेज एक प्रमुख यूपी बोर्ड संस्थान है जो पारंपरिक मूल्यों और आधुनिक तकनीकी शिक्षा का संतुलित मिश्रण प्रदान करने के लिए समर्पित है। ईआर. शैलेंद्र प्रताप सिंह के मार्गदर्शन में, हम छात्रों को व्यावहारिक ज्ञान के साथ सशक्त बनाने पर ध्यान केंद्रित करते हैं।"

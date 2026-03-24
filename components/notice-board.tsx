@@ -3,6 +3,7 @@
 import { useLanguage } from "./language-provider";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Bell, Calendar } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function NoticeBoard() {
   const { t } = useLanguage();
@@ -34,12 +35,17 @@ export function NoticeBoard() {
     <section id="academics" className="bg-white py-24 dark:bg-black font-mukta">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+          >
             <h2 className="text-3xl font-bold tracking-tight text-primary dark:text-white sm:text-4xl text-balance font-khand">
               {t("Academics & Updates", "शिक्षाविद और अपडेट")}
             </h2>
             <div className="mt-4 h-1 w-20 rounded bg-secondary" />
-            <p className="mb-8 mt-4 text-lg text-muted-foreground">
+            <p className="mb-8 mt-4 text-lg text-muted-foreground leading-relaxed">
               {t(
                 "Stay informed with the latest announcements, events, and academic schedules of M.D. Public Inter College.",
                 "एम. डी. पब्लिक इण्टर कॉलेज की नवीनतम घोषणाओं, कार्यक्रमों और शैक्षणिक कार्यक्रमों के साथ सूचित रहें।"
@@ -53,16 +59,22 @@ export function NoticeBoard() {
                 className="rounded-2xl object-cover shadow-2xl h-[300px] w-full"
               />
             </div>
-          </div>
+          </motion.div>
 
-          <Card className="overflow-hidden border-zinc-200 bg-white/50 shadow-2xl backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-900/50 rounded-2xl">
-            <CardHeader className="bg-primary px-6 py-5">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Card className="overflow-hidden border-zinc-200 bg-white/50 shadow-2xl backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-900/50 rounded-2xl">
+              <CardHeader className="bg-primary px-6 py-5">
               <CardTitle className="flex items-center gap-3 text-xl font-bold text-white tracking-widest uppercase font-khand">
                 <Bell className="h-6 w-6 text-secondary" />
                 {t("Notice Board", "सूचना पट्ट")}
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-0">
+            <CardContent className="p-0 relative">
               <div className="h-[400px] overflow-y-auto p-4 custom-scrollbar">
                 <div className="flex flex-col gap-4">
                   {notices.map((notice, i) => (
@@ -88,8 +100,12 @@ export function NoticeBoard() {
                   ))}
                 </div>
               </div>
+              
+              {/* Scroll Fade-out Indicator */}
+              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/95 to-transparent pointer-events-none rounded-b-2xl dark:from-zinc-900/95" />
             </CardContent>
           </Card>
+          </motion.div>
         </div>
       </div>
     </section>

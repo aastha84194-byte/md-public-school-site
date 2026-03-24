@@ -5,6 +5,7 @@ import { AboutSection } from "@/components/about-section";
 import { LeadershipGrid } from "@/components/leadership-grid";
 import { AcademicsPreview } from "@/components/academics-preview";
 import { NoticeBoard } from "@/components/notice-board";
+import { StatsSection } from "@/components/stats-section";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
         <LeadershipGrid />
         <AcademicsPreview />
         <NoticeBoard />
+        <StatsSection />
       </main>
       <Footer />
     </div>

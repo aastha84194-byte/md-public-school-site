@@ -12,7 +12,7 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-sky-200 bg-sky-50/95 backdrop-blur-md text-sky-950 shadow-sm transition-all pt-2 pb-2 dark:bg-sky-950/95 dark:border-sky-800 dark:text-sky-50">
+    <nav className="sticky top-0 z-50 w-full border-b border-sky-100/50 bg-white/70 backdrop-blur-md text-sky-950 shadow-sm transition-all pt-2 pb-2 dark:bg-zinc-950/70 dark:border-zinc-800 dark:text-sky-50">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-3">

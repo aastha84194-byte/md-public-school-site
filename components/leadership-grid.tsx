@@ -3,7 +3,7 @@
 import { useLanguage } from "./language-provider";
 import { Card, CardContent } from "./ui/card";
 import { motion } from "framer-motion";
-import { User, ArrowRight } from "lucide-react";
+import { UserRound, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -59,10 +59,10 @@ export function LeadershipGrid() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="group overflow-hidden border-zinc-200 bg-white transition-all hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-950 flex flex-col h-full rounded-2xl">
+              <Card className="group overflow-hidden border-zinc-200 bg-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-2 dark:border-zinc-800 dark:bg-zinc-950 flex flex-col h-full rounded-2xl">
                 <div className={`h-32 shrink-0 bg-gradient-to-r ${leader.color} opacity-90`} />
                 <CardContent className="relative flex flex-col items-center px-6 pb-8 pt-0 flex-1">
-                  <div className="-mt-16 mb-4 flex h-32 w-32 items-center justify-center rounded-full border-4 border-white bg-zinc-100 shadow-md dark:border-zinc-950 dark:bg-zinc-800 overflow-hidden shrink-0">
+                  <div className="-mt-16 mb-4 flex h-32 w-32 items-center justify-center rounded-full border-4 border-white bg-slate-50 shadow-sm dark:border-zinc-950 dark:bg-zinc-800 overflow-hidden shrink-0">
                     {leader.image ? (
                         <Image 
                           src={leader.image} 
@@ -72,7 +72,7 @@ export function LeadershipGrid() {
                           className="h-full w-full object-cover rounded-full aspect-square" 
                         />
                       ) : (
-                        <User className="h-12 w-12 text-zinc-400" />
+                        <UserRound className="h-16 w-16 text-slate-300 dark:text-zinc-400 mt-4" strokeWidth={1.5} />
                       )}
                   </div>
                   <h3 className="mb-1 text-xl font-bold text-zinc-900 dark:text-zinc-50 text-center text-balance leading-tight font-khand">
