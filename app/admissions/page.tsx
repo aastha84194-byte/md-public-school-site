@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { useLanguage } from "@/components/language-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -13,8 +15,11 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Download, FileText, Send } from "lucide-react";
 
+import { apiRequest } from "@/lib/api-client";
+
 export default function AdmissionsPage() {
   const { t } = useLanguage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formSchema = z.object({
     studentName: z.string().min(2, { message: t("Name must be at least 2 characters.", "नाम कम से कम 2 अक्षर का होना चाहिए।") }),
@@ -35,10 +40,24 @@ export default function AdmissionsPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    alert(t("Inquiry submitted successfully! We will contact you soon.", "पूछताछ सफलतापूर्वक सबमिट की गई! हम आपसे जल्द ही संपर्क करेंगे।"));
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        student_name: values.studentName,
+        class_name: values.className,
+        previous_school: values.previousSchool,
+        parent_name: values.parentName,
+        mobile_number: values.mobileNumber,
+      };
+      await apiRequest("/staff-forms/public/admission", "POST", payload);
+      alert(t("Inquiry submitted successfully! We will contact you soon.", "पूछताछ सफलतापूर्वक सबमिट की गई! हम आपसे जल्द ही संपर्क करेंगे।"));
+      form.reset();
+    } catch (err: any) {
+      alert(t("Failed to submit inquiry: ", "पूछताछ सबमिट करने में विफल: ") + err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const faqs = [

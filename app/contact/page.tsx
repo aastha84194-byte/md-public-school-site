@@ -1,3 +1,5 @@
+"use client";
+
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -6,7 +8,38 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
+import { useState } from "react";
+import { apiRequest } from "@/lib/api-client";
+
 export default function ContactPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setStatus(null);
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      first_name: formData.get('first-name'),
+      last_name: formData.get('last-name'),
+      email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+    };
+
+    try {
+      await apiRequest("/staff-forms/public/contact", "POST", data);
+      setStatus({ type: 'success', message: "Your message has been sent successfully! We'll get back to you soon." });
+      (e.target as HTMLFormElement).reset();
+    } catch (err: any) {
+      setStatus({ type: 'error', message: err.message || "Something went wrong. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col font-sans bg-sky-50/30">
       <Navbar />
@@ -29,36 +62,44 @@ export default function ContactPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    {status && (
+                      <div className={`p-4 rounded-md text-sm ${
+                        status.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'
+                      }`}>
+                        {status.message}
+                      </div>
+                    )}
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="first-name">First Name</Label>
-                        <Input id="first-name" placeholder="John" required />
+                        <Input id="first-name" name="first-name" placeholder="John" required />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="last-name">Last Name</Label>
-                        <Input id="last-name" placeholder="Doe" required />
+                        <Input id="last-name" name="last-name" placeholder="Doe" required />
                       </div>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" placeholder="john.doe@example.com" required />
+                      <Input id="email" name="email" type="email" placeholder="john.doe@example.com" required />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="subject">Subject</Label>
-                      <Input id="subject" placeholder="Admission Inquiry" required />
+                      <Input id="subject" name="subject" placeholder="Admission Inquiry" required />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="message">Message</Label>
                       <textarea 
                         id="message" 
+                        name="message"
                         className="flex min-h-[120px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" 
                         placeholder="How can we help you?" 
                         required 
                       />
                     </div>
-                    <Button type="submit" className="w-full bg-sky-600 hover:bg-sky-700 text-white">
-                      Send Message
+                    <Button type="submit" className="w-full bg-sky-600 hover:bg-sky-700 text-white" disabled={isSubmitting}>
+                      {isSubmitting ? "Sending..." : "Send Message"}
                     </Button>
                   </form>
                 </CardContent>
